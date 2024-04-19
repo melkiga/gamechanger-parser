@@ -67,4 +67,3 @@ def normalize_dod(text):
     text = sub(DODM_PATTERN, "DoDM", text)
 
     return text
-

@@ -16,9 +16,7 @@ def make_pattern_for_uppercase_or_titlecase(s: str) -> str:
 
 # [r"J(?:ANUARY|anuary)", r"F(?:EBRUARY|ebruary)", ...]
 # Used to match a month that is uppercase or titlecase.
-MONTH_LIST = [
-    make_pattern_for_uppercase_or_titlecase(m) for m in month_name[1:]
-]
+MONTH_LIST = [make_pattern_for_uppercase_or_titlecase(m) for m in month_name[1:]]
 
 # [r"J(?:AN|an)", r"F(?:EB|eb)", ...]
 # Used to match a month abbreviation that is uppercase or titlecase.
@@ -70,9 +68,7 @@ def next_letter(char: str) -> str:
         str
     """
     if len(char) != 1 or not char.isalpha():
-        raise ValueError(
-            f"input for `next_letter()` must be a single letter but was: `{char}`."
-        )
+        raise ValueError(f"input for `next_letter()` must be a single letter but was: `{char}`.")
     if char.isupper():
         # ord("A") = 65
         return chr((ord(char) - 64) % 26 + 65)
@@ -81,9 +77,7 @@ def next_letter(char: str) -> str:
         return chr((ord(char) - 96) % 26 + 97)
 
 
-def remove_pagebreaks(
-    text: str, pagebreak: str, regex_flags: List[RegexFlag] = []
-) -> str:
+def remove_pagebreaks(text: str, pagebreak: str, regex_flags: List[RegexFlag] = []) -> str:
     """Remove a pagebreak from the given text.
 
     NOTE: The VERBOSE flag will always be applied. Make sure the `pagebreak`
@@ -120,10 +114,10 @@ def remove_pagebreaks(
 
 
 def find_first_occurrence(text: str, patterns) -> Union[Match, None]:
-    """Find the first occurrence of a pattern match (lowest start index) within 
+    """Find the first occurrence of a pattern match (lowest start index) within
     the text.
 
-    Note: If 2 matches have the same start index, the returned match is the one 
+    Note: If 2 matches have the same start index, the returned match is the one
     whose pattern is first in the `patterns` param.
 
     Args:
@@ -131,7 +125,7 @@ def find_first_occurrence(text: str, patterns) -> Union[Match, None]:
         patterns (str or re.Pattern): Patterns to search for in the text.
 
     Returns:
-        Union[Match, None]: If a match(es) found, returns the match with the 
+        Union[Match, None]: If a match(es) found, returns the match with the
             lowest start index. If no match is found, returns None.
     """
     first_match = None

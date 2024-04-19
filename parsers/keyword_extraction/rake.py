@@ -78,9 +78,7 @@ class Rake(object):
         self.stop_words = stop_words
 
         self._word_splitter = re.compile("[^a-zA-Z0-9_\\+\\-/]")
-        self._sentence_delimiters = re.compile(
-            "[.!?,;:\t\\\\\"\\(\\)\\'\u2019\u2013]|\\s\\-\\s"
-        )
+        self._sentence_delimiters = re.compile("[.!?,;:\t\\\\\"\\(\\)\\'\u2019\u2013]|\\s\\-\\s")
         self.nb_keywords = 0
 
         logger.debug(self.__repr__())
@@ -121,9 +119,7 @@ class Rake(object):
 
         phrase_list = alg.gen_cand_keywords(sentence_list, self._stop_words_re)
 
-        word_scores, phrase_words = alg.calc_word_scores(
-            phrase_list, self._word_splitter
-        )
+        word_scores, phrase_words = alg.calc_word_scores(phrase_list, self._word_splitter)
 
         keyword_candidates = alg.gen_cand_keyword_scores(phrase_words, word_scores)
 
@@ -132,11 +128,7 @@ class Rake(object):
             key=operator.itemgetter(1),
             reverse=True,
         )
-        sorted_keywords = [
-            kw.lower()
-            for kw, score in sorted_keywords
-            if ngram[0] <= _word_length(kw) <= ngram[1]
-        ]
+        sorted_keywords = [kw.lower() for kw, score in sorted_keywords if ngram[0] <= _word_length(kw) <= ngram[1]]
 
         sorted_keywords = list(dict.fromkeys(sorted_keywords))
 

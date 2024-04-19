@@ -99,18 +99,14 @@ class PDFOCR:
             output_extension_str = str(output_extension).strip()
             if output_extension_str:
                 output_extension_str = (
-                    output_extension_str
-                    if output_extension_str.startswith(".")
-                    else "." + output_extension_str
+                    output_extension_str if output_extension_str.startswith(".") else "." + output_extension_str
                 )
                 self.output_extension = output_extension_str
                 self.output_file = self.output_file.with_suffix(self.output_extension)
 
         self.job_type = OCRJobType(ocr_job_type)
         self.show_progress_bar = show_progress_bar
-        self.num_threads = (
-            num_threads if (num_threads is None or num_threads > 0) else None
-        )
+        self.num_threads = num_threads if (num_threads is None or num_threads > 0) else None
 
         # checks
         if self.output_file.exists() and not overwrite_output:

@@ -7,10 +7,7 @@ from parsers.file_utils import is_pdf, is_ocr_pdf, is_encrypted_pdf
 def is_pdf_file(f_name) -> bool:
     if Path(f_name).suffix == ".pdf" or (
         filetype.guess(str(f_name)) is not None
-        and (
-            filetype.guess(str(f_name)).mime == "pdf"
-            or filetype.guess(str(f_name)).mime == "application/pdf"
-        )
+        and (filetype.guess(str(f_name)).mime == "pdf" or filetype.guess(str(f_name)).mime == "application/pdf")
     ):
         return True
     else:

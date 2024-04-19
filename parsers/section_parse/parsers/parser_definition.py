@@ -20,7 +20,7 @@ class ParserDefinition:
         all_sections (list of list of str): All sections of the document.
 
         num_of_sections (int): The length of `all_sections`.
-        
+
         purpose (list of str): Purpose sections of the document.
 
         responsibilities (list of str): Responsibilities (list of str): sections
@@ -146,8 +146,7 @@ class ParserDefinition:
             end (int): Last index of the sections to combine.
         """
         debug_msg = lambda x: self._logger.debug(
-            f"combine_sections(): {x}. Inputs: start={start}, end={end}. "
-            f"len of _sections: {self.num_of_sections}."
+            f"combine_sections(): {x}. Inputs: start={start}, end={end}. " f"len of _sections: {self.num_of_sections}."
         )
 
         if start < 0:
@@ -166,9 +165,7 @@ class ParserDefinition:
             debug_msg("start is greater than end")
             return
 
-        self._sections[start : end + 1] = [
-            list(chain.from_iterable(self._sections[start : end + 1]))
-        ]
+        self._sections[start : end + 1] = [list(chain.from_iterable(self._sections[start : end + 1]))]
 
     def get_raw_text(self) -> str:
         field = FieldNames.TEXT
@@ -176,16 +173,12 @@ class ParserDefinition:
         try:
             raw_text = self.doc_dict[field]
         except KeyError:
-            self._logger.exception(
-                f"Document `{self._filename}` is missing field `{field}`. "
-                "Cannot parse sections."
-            )
+            self._logger.exception(f"Document `{self._filename}` is missing field `{field}`. " "Cannot parse sections.")
             raw_text = ""
         else:
             if raw_text == "":
                 self._logger.warning(
-                    f"Document `{self._filename}` has empty value for field "
-                    f"`{field}`. Cannot parse sections. "
+                    f"Document `{self._filename}` has empty value for field " f"`{field}`. Cannot parse sections. "
                 )
 
         return utf8_pass(raw_text)

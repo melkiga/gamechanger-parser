@@ -1,6 +1,7 @@
 import re
 import typing as t
 
+
 def translate_to_ascii_string(_s: t.Union[str, bytes]) -> str:
     """
     Translates utf-8 byte sequence to ASCII string
@@ -18,6 +19,7 @@ def translate_to_ascii_string(_s: t.Union[str, bytes]) -> str:
     """
     _str_bytes = _s if isinstance(_s, bytes) else _s.encode("utf-8", "ignore")
     return _str_bytes.decode("ascii", errors="ignore")
+
 
 def simple_clean(text: str) -> str:
     """
@@ -45,17 +47,18 @@ def simple_clean(text: str) -> str:
         print("{}: {}".format(type(e), str(e)), exc_info=True)
         raise
 
+
 def replace_nonalpha_chars(text, replace_char=""):
     """Replace non-alphanumeric characters in the text.
 
     Args:
         text (str)
-        replace_char (str, optional): The character(s) to replace 
+        replace_char (str, optional): The character(s) to replace
             non-alphanumeric characters with. Defaults to "".
 
     Returns:
         str: The text with non-alphanumeric characters replaced.
     """
     text = re.sub("[^a-zA-Z0-9\s]+", replace_char, text)
-    
+
     return re.sub("\\s{2,}", " ", text)

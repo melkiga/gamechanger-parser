@@ -1,5 +1,6 @@
 import re
 
+
 def get_reference_regex_dict() -> dict:
     # helper func for common flags
     def pattern(raw_string, flags=re.IGNORECASE | re.VERBOSE):
@@ -28,9 +29,7 @@ def get_reference_regex_dict() -> dict:
         r"\b(?:DTM|DT ?Memorandum) ?-? ?([0-9]{2} ?- ?[0-9]{3})",
         re.IGNORECASE,
     )
-    ref_dict["AI"] = re.compile(
-        r"\b(?:administrative ?instruction|ai) ?([0-9]+)", re.IGNORECASE
-    )
+    ref_dict["AI"] = re.compile(r"\b(?:administrative ?instruction|ai) ?([0-9]+)", re.IGNORECASE)
 
     # United States Code Title
     ref_dict["Title"] = re.compile(
@@ -67,9 +66,7 @@ def get_reference_regex_dict() -> dict:
         r"\bicpg ?((?:[A-Z]+-)?[0-9]{3}\. ?[0-9]{1,3} ?(?:-[A-Z]+)?E?)",
         re.IGNORECASE,
     )
-    ref_dict["ICPM"] = re.compile(
-        r"\bicpm ?([0-9]{4}- ?[0-9]{3}- ?[0-9]{1})", re.IGNORECASE
-    )
+    ref_dict["ICPM"] = re.compile(r"\bicpm ?([0-9]{4}- ?[0-9]{3}- ?[0-9]{1})", re.IGNORECASE)
 
     # Chairman of the Joint Chiefs of Staff (CJCS) Instruction
     ref_dict["CJCSI"] = pattern(
@@ -116,9 +113,7 @@ def get_reference_regex_dict() -> dict:
         r"\b(?:Director ?of ?Central ?Intelligence ?Directives|DCID) ?([0-9]\/[0-9]{1,2}P?)",
         re.IGNORECASE,
     )
-    ref_dict["EO"] = re.compile(
-        r"\b(?:Executive ?Order|EO|E\. ?O\. ?) ?([0-9]{5})", re.IGNORECASE
-    )
+    ref_dict["EO"] = re.compile(r"\b(?:Executive ?Order|EO|E\. ?O\. ?) ?([0-9]{5})", re.IGNORECASE)
 
     ref_dict["AR"] = re.compile(
         r"""
@@ -187,9 +182,7 @@ def get_reference_regex_dict() -> dict:
         r"\b(?:GTA|Graphic ?Training ?Aid) ?([0-9]{2} ?- ?[0-9]{2}(?: ?- ?[0-9]{3})?[A-Z]?)",
         re.IGNORECASE,
     )
-    ref_dict["HQDA"] = re.compile(
-        r"\bHQDA ?POLICY ?NOTICE ?([0-9]{1,3} ?- ?[0-9]{1})", re.IGNORECASE
-    )
+    ref_dict["HQDA"] = re.compile(r"\bHQDA ?POLICY ?NOTICE ?([0-9]{1,3} ?- ?[0-9]{1})", re.IGNORECASE)
     ref_dict["CTA"] = re.compile(
         r"\b(?:CTA|Common ?Table ?of ?Allowances?) ?([0-9]{1,2} ?- ?[0-9]{3})",
         re.IGNORECASE,
@@ -274,9 +267,7 @@ def get_reference_regex_dict() -> dict:
         r"\b(?:AF|Air ?Force) ?(?:Form ?)?([0-9]{1,4}[A-Z]?)",
         re.IGNORECASE,
     )
-    ref_dict["SF"] = re.compile(
-        r"\bSF ?([0-9]{2,4}(?: ?- ?[0-9])?[A-Z]?)", re.IGNORECASE
-    )
+    ref_dict["SF"] = re.compile(r"\bSF ?([0-9]{2,4}(?: ?- ?[0-9])?[A-Z]?)", re.IGNORECASE)
     ref_dict["AFPM"] = re.compile(
         r"\b(?:AFPM|Air ?Force ?Policy ?Memorandum) ?([0-9]{4} ?- ?[0-9]{2} ?- ?[0-9]{2})",
         re.IGNORECASE,
@@ -379,9 +370,7 @@ def get_reference_regex_dict() -> dict:
         r"\b(?:SECNAVINST|SECNAV ?INSTRUCTION) ?([0-9]{4}\.[0-9]{1,2}[A-Z]?)",
         re.IGNORECASE,
     )
-    ref_dict["SECNAV"] = re.compile(
-        r"\bSECNAV ?(M ?- ?[0-9]{4}\.[0-9]{1,2})", re.IGNORECASE
-    )
+    ref_dict["SECNAV"] = re.compile(r"\bSECNAV ?(M ?- ?[0-9]{4}\.[0-9]{1,2})", re.IGNORECASE)
 
     # Naval Supply Systems Command
     ref_dict["NAVSUP"] = re.compile(
@@ -1155,7 +1144,7 @@ def get_reference_regex_dict() -> dict:
             \b
         """
     )
-    
+
     # Defense Contract Management Agency (DCMA) Instruction
     ref_dict["DCMA Instruction"] = pattern(
         r"""
@@ -1198,7 +1187,4 @@ def get_reference_regex_dict() -> dict:
         """
     )
 
-
-
     return ref_dict
-

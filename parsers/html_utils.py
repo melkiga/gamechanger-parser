@@ -66,9 +66,7 @@ def _truncate_rowspan(soup: bs4.BeautifulSoup) -> None:
     """Ensure rowspan does not extend beyond end of tables."""
     tables = soup.find_all("table")
     for table in tables:
-        rows = table.select(
-            "tr:not(:scope table tr)"
-        )  # tr not nested inside another table
+        rows = table.select("tr:not(:scope table tr)")  # tr not nested inside another table
         max_row = len(rows)
         for i, row in enumerate(rows):
             cells = row.select(
@@ -99,9 +97,7 @@ def _remove_nav_bar(soup: bs4.BeautifulSoup) -> None:
 
 def _remove_header_href(soup: bs4.BeautifulSoup) -> None:
     """Remove any a tag with the class 'visually-hidden. . .  etc'"""
-    a_tag = soup.find(
-        "a", class_="visually-hidden focusable skip-link"
-    )  # Targetting SAMM Chapters
+    a_tag = soup.find("a", class_="visually-hidden focusable skip-link")  # Targetting SAMM Chapters
     if a_tag is not None:
         a_tag.decompose()
 

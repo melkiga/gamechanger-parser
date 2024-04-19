@@ -7,6 +7,7 @@ from .cjcs_parser import CJCSParser
 from .eo_parser import EOParser
 from .uscode_parser import USCodeParser
 
+
 class ParserFactory:
     """Create a parser for a specific document type."""
 

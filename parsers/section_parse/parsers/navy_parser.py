@@ -63,9 +63,7 @@ class NavyParser(ParserDefinition):
 
     @property
     def responsibilities(self):
-        resp = self._get_numbered_section_with_name(
-            "responsibilit(?:y|ies)", False
-        )
+        resp = self._get_numbered_section_with_name("responsibilit(?:y|ies)", False)
 
         if not resp:
             # Examples of unique responsibilities sections:
@@ -118,23 +116,15 @@ class NavyParser(ParserDefinition):
         for start_match in matches:
             end_match = None
             first_num = start_match.groups()[0]
-            second_num = "".join(
-                char for char in start_match.groups()[1] if char.isdigit()
-            )
+            second_num = "".join(char for char in start_match.groups()[1] if char.isdigit())
             cropped_text = self._text[start_match.start() :]
 
             if second_num:
-                end_match = match_number_hyphenated_section(
-                    cropped_text, first_num, {str(int(second_num) + 1)}
-                )
+                end_match = match_number_hyphenated_section(cropped_text, first_num, {str(int(second_num) + 1)})
                 if not end_match:
-                    end_match = match_number_hyphenated_section(
-                        cropped_text, rf"0?{str(int(first_num) + 1)}"
-                    )
+                    end_match = match_number_hyphenated_section(cropped_text, rf"0?{str(int(first_num) + 1)}")
             else:
-                end_match = match_number_dot_section(
-                    cropped_text, rf"0?{str(int(first_num) + 1)}"
-                )
+                end_match = match_number_dot_section(cropped_text, rf"0?{str(int(first_num) + 1)}")
 
             appendix_match = match_first_appendix_title(cropped_text)
             if appendix_match:
@@ -157,9 +147,7 @@ class NavyParser(ParserDefinition):
         return sections
 
     def _remove_pagebreaks(self, text: str) -> str:
-        text = remove_pagebreaks(
-            text, self._filename_without_extension.replace(" ", r"[ ]")
-        )
+        text = remove_pagebreaks(text, self._filename_without_extension.replace(" ", r"[ ]"))
         text = remove_pagebreaks(text, DD_MONTHNAME_YYYY, [VERBOSE])
         text = remove_pagebreaks(text, r"[0-9]{1,3}")  # Page numbers
         return text

@@ -4,18 +4,22 @@ import pandas
 
 from parsers.text_utils import utf8_pass, clean_text
 
-def parse_timestamp(ts: t.Union[str, datetime.datetime], raise_parse_error: bool = False) -> t.Optional[datetime.datetime]:
+
+def parse_timestamp(
+    ts: t.Union[str, datetime.datetime], raise_parse_error: bool = False
+) -> t.Optional[datetime.datetime]:
     """Parse date/timestamp with no particular format
     :param ts: date/timestamp string
     :return: datetime.datetime if parsing was successful, else None
     """
+
     def _parse(ts):
         if isinstance(ts, datetime.datetime):
             return ts
 
         try:
             ts = pandas.to_datetime(ts).to_pydatetime()
-            if str(ts) == 'NaT':
+            if str(ts) == "NaT":
                 return None
             else:
                 return ts
@@ -28,21 +32,24 @@ def parse_timestamp(ts: t.Union[str, datetime.datetime], raise_parse_error: bool
     else:
         return parsed_ts
 
+
 def get_publication_date(doc_dict):
     try:
         parsed_date = parse_timestamp(doc_dict.get("publication_date", None))
         if parsed_date:
-            return datetime.datetime.strftime(parsed_date, '%Y-%m-%dT%H:%M:%S')
+            return datetime.datetime.strftime(parsed_date, "%Y-%m-%dT%H:%M:%S")
     except:
         return ""
+
 
 def get_access_timestamp(doc_dict):
     try:
         parsed_date = parse_timestamp(doc_dict.get("access_timestamp", None))
         if parsed_date:
-            return datetime.datetime.strftime(parsed_date, '%Y-%m-%dT%H:%M:%S')
+            return datetime.datetime.strftime(parsed_date, "%Y-%m-%dT%H:%M:%S")
     except:
         return ""
+
 
 def post_process(doc_dict):
     doc_dict["raw_text"] = utf8_pass(doc_dict["text"])
@@ -50,19 +57,35 @@ def post_process(doc_dict):
 
     # because an old format of the metadata could exist, we need to check if the entry exists in each assignment
     if doc_dict["meta_data"]:
-        doc_dict["file_ext_s"] = doc_dict["meta_data"]["file_ext"] if "file_ext" in doc_dict["meta_data"] \
+        doc_dict["file_ext_s"] = (
+            doc_dict["meta_data"]["file_ext"]
+            if "file_ext" in doc_dict["meta_data"]
             else doc_dict["meta_data"]["downloadable_items"][0]["doc_type"]
-        doc_dict["display_doc_type_s"] = doc_dict["meta_data"]["display_doc_type"] if "display_doc_type" in doc_dict["meta_data"] \
+        )
+        doc_dict["display_doc_type_s"] = (
+            doc_dict["meta_data"]["display_doc_type"]
+            if "display_doc_type" in doc_dict["meta_data"]
             else "Uncategorized"
-        doc_dict["display_title"] = doc_dict["meta_data"]["display_title"] if "display_title" in doc_dict["meta_data"] \
-            else doc_dict["meta_data"]["doc_type"] + " " + doc_dict["meta_data"]["doc_num"] + ": " + doc_dict["meta_data"]["doc_title"]
+        )
+        doc_dict["display_title"] = (
+            doc_dict["meta_data"]["display_title"]
+            if "display_title" in doc_dict["meta_data"]
+            else doc_dict["meta_data"]["doc_type"]
+            + " "
+            + doc_dict["meta_data"]["doc_num"]
+            + ": "
+            + doc_dict["meta_data"]["doc_title"]
+        )
         doc_dict["display_title_s"] = doc_dict["display_title"]
-        doc_dict["display_org_s"] = doc_dict["meta_data"]["display_org"] if "display_org" in doc_dict["meta_data"] \
-            else "Uncategorized"
-        doc_dict["source_title_s"] = doc_dict["meta_data"]["source_title"] if "source_title" in doc_dict["meta_data"] \
-            else "Uncategorized"
-        doc_dict["display_source_s"] = doc_dict["meta_data"]["display_source"] if "display_source" in doc_dict["meta_data"] \
-            else "Uncategorized"
+        doc_dict["display_org_s"] = (
+            doc_dict["meta_data"]["display_org"] if "display_org" in doc_dict["meta_data"] else "Uncategorized"
+        )
+        doc_dict["source_title_s"] = (
+            doc_dict["meta_data"]["source_title"] if "source_title" in doc_dict["meta_data"] else "Uncategorized"
+        )
+        doc_dict["display_source_s"] = (
+            doc_dict["meta_data"]["display_source"] if "display_source" in doc_dict["meta_data"] else "Uncategorized"
+        )
         doc_dict["access_timestamp_dt"] = datetime_utils.get_access_timestamp(doc_dict["meta_data"])
         doc_dict["publication_date_dt"] = datetime_utils.get_publication_date(doc_dict["meta_data"])
         doc_dict["is_revoked_b"] = False
@@ -112,7 +135,7 @@ def post_process(doc_dict):
         "display_source",
         "data_source",
         "source_title",
-        "is_revoked"
+        "is_revoked",
     ]
 
     for key in to_delete:

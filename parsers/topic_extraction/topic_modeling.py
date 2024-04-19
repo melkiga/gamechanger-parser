@@ -65,7 +65,6 @@ class Topics(object):
         self.tfidf = TfidfModel.load(tfidf_path)
         self.bigrams = Phraser.load(bigrams_path)
 
-
     def get_topics(self, tokens, topn=5):
         """
         get_topics - given a tokenized text, get a list of the topn topics

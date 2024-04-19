@@ -18,6 +18,7 @@ except Exception as e:
 
 rank_min = 0.00001
 
+
 def get_pr(docId: str) -> float:
     try:
         if docId in list(corpus_meta_df.id):
@@ -39,14 +40,11 @@ def get_pop_score(docId: str) -> float:
         print("get get_pop_score error", e)
         return 0.0
 
+
 def add_pagerank(doc_dict):
     print(doc_dict.keys())
     doc_dict["pagerank_r"] = get_pr(doc_dict["id"])
 
+
 def add_popscore(doc_dict):
     doc_dict["pop_score"] = get_pop_score(doc_dict["filename"])
-
-
-
-
-

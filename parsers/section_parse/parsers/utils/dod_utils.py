@@ -5,9 +5,7 @@ from typing import Union, Tuple, List, Callable
 from .shared_utils import MONTH_LIST
 
 
-PAGEBREAK_DATE_PATTERN = compile(
-    r"(?:" + r"|".join(MONTH_LIST) + r") [0-9]{1,2}[,\.]? (?:19[0-9]{2}|2[0-9]{3})"
-)
+PAGEBREAK_DATE_PATTERN = compile(r"(?:" + r"|".join(MONTH_LIST) + r") [0-9]{1,2}[,\.]? (?:19[0-9]{2}|2[0-9]{3})")
 
 
 def find_pagebreak_date(text: str) -> Union[Tuple[int, int], None]:
@@ -83,8 +81,8 @@ def is_sentence_continuation(text: str, prev_text: str) -> bool:
 
     Note: do NOT strip leading/ trailing whitespace from the params.
     """
-    # prev_text: ends with lowercase letter, optional single space, and 
-    #   anything other than a period or letter. 
+    # prev_text: ends with lowercase letter, optional single space, and
+    #   anything other than a period or letter.
     # text: starts with a lowercase letter.
     # Example:
     #   prev_text = "to execute DSCA plans as directed."
@@ -101,9 +99,7 @@ def is_sentence_continuation(text: str, prev_text: str) -> bool:
     #   prev_text = "ASSISTANT SECRETARY OF DEFENSE FOR SPECIAL OPERATIONS AND LOW-"
     #   text = "INTENSITY CONFLICT"
     #   --> "ASSISTANT SECRETARY OF DEFENSE FOR SPECIAL OPERATIONS AND LOW-INTENSITY CONFLICT"
-    elif search(r"(?:[a-zA-Z]\-|,.{0,2}\s+)$", prev_text) and match(
-        r"[a-zA-Z]", text
-    ):
+    elif search(r"(?:[a-zA-Z]\-|,.{0,2}\s+)$", prev_text) and match(r"[a-zA-Z]", text):
         return True
 
     # prev_text: ends with "under", "in", "with", or "to"
@@ -112,9 +108,7 @@ def is_sentence_continuation(text: str, prev_text: str) -> bool:
     #   prev_text = "This provision is stated under "
     #   text = "Section 8 of Title 10. "
     #   --> "This provision is stated under Section 8 of Title 10."
-    elif search(r"(?:under|in|with|to) +$", prev_text) and match(
-        r"Section [0-9]", text
-    ):
+    elif search(r"(?:under|in|with|to) +$", prev_text) and match(r"Section [0-9]", text):
         return True
 
     # prev_text: ends with "in", 1 or more spaces, "the", 1 or more spaces
@@ -135,10 +129,7 @@ def is_sentence_continuation(text: str, prev_text: str) -> bool:
 
 def is_toc(text: str) -> bool:
     """Check if the text is part of a document's Table of Contents section."""
-    return (
-        search(r"table\sof\scontents|\.{5,}", text, flags=IGNORECASE)
-        is not None
-    )
+    return search(r"table\sof\scontents|\.{5,}", text, flags=IGNORECASE) is not None
 
 
 def is_known_section_start(text: str) -> bool:
@@ -198,9 +189,7 @@ def is_known_section_start(text: str) -> bool:
     return False
 
 
-def match_enclosure_num(
-    text: str, num: Union[int, str, None] = None
-) -> Union[str, None]:
+def match_enclosure_num(text: str, num: Union[int, str, None] = None) -> Union[str, None]:
     """Find an Enclosure number within a string.
 
     Attempts to match at the start of `text`. If no match is found, returns
@@ -236,9 +225,7 @@ def match_enclosure_num(
     return num_match.groups()[0] if num_match else None
 
 
-def match_section_num(
-    text: str, num: Union[int, None] = None
-) -> Union[str, None]:
+def match_section_num(text: str, num: Union[int, None] = None) -> Union[str, None]:
     """Match a section number in the text.
 
     Args:
@@ -266,9 +253,7 @@ def match_section_num(
             flags=VERBOSE | IGNORECASE,
         )
     else:
-        num = match(
-            rf"section\s({num})|({num})\.[\s0-9]", text, flags=IGNORECASE
-        )
+        num = match(rf"section\s({num})|({num})\.[\s0-9]", text, flags=IGNORECASE)
 
     if num is not None:
         return next((n for n in num.groups() if n is not None), None)
@@ -317,9 +302,7 @@ def starts_with_glossary(text: str) -> bool:
     return match(r"G(?:LOSSARY|lossary)", text) is not None
 
 
-def get_subsection_of_section_1(
-    section_1: List[str], subsection_name: str
-) -> List[str]:
+def get_subsection_of_section_1(section_1: List[str], subsection_name: str) -> List[str]:
     """Get a subsection from Section 1 of a document.
 
     Sometimes, sections such as "Applicability" and "Policy" are subsections of
@@ -374,9 +357,7 @@ def is_subsection_start_for_section_1(text: str, subsection_name: str) -> bool:
         if match(rf"{name_pattern}", text):
             return True
         known_subsection_names = [
-            x
-            for x in ["Applicability", "Policy", "Information Collections"]
-            if x.lower() != subsection_name.lower()
+            x for x in ["Applicability", "Policy", "Information Collections"] if x.lower() != subsection_name.lower()
         ]
         for name in known_subsection_names:
             if text.lower().startswith(name.lower()) and text[:1].isupper():

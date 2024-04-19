@@ -3,14 +3,9 @@
 """
 This module contains functions to extract references inside of documents using regular expressions
 """
-
-import re
 import json
-import argparse
 from pathlib import Path
 from collections import defaultdict
-from typing import Pattern, List
-import typing as t
 import chardet
 
 
@@ -40,7 +35,7 @@ def read_plain_text(fname: Path) -> str:
     Returns:
         text string from file
     """
-    with open(fname, 'r', encoding='utf-8-sig', errors='ignore') as f_in:
+    with open(fname, "r", encoding="utf-8-sig", errors="ignore") as f_in:
         text_bytes = f_in.read().encode()
-    encoding = chardet.detect(text_bytes)['encoding'] or 'latin1'
+    encoding = chardet.detect(text_bytes)["encoding"] or "latin1"
     return text_bytes.decode(encoding)

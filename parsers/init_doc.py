@@ -1,23 +1,17 @@
 from pathlib import Path
-from datetime import datetime
 
 
 def assign_f_name_fields(f_name, doc_dict):
-    filename = (
-        f_name.absolute().name
-        if isinstance(f_name, Path)
-        else Path(str(f_name)).name
-    )
-    doc_dict['filename'] = filename
-    doc_dict['f_name'] = filename
+    filename = f_name.absolute().name if isinstance(f_name, Path) else Path(str(f_name)).name
+    doc_dict["filename"] = filename
+    doc_dict["f_name"] = filename
     doc_dict["id"] = filename + "_0"
     doc_dict["group_s"] = filename + "_0"
 
     meta_data = doc_dict.get("meta_data", {})
 
     doc_dict["doc_type"] = meta_data.get("doc_type", str(f_name).split(" ")[0])
-    doc_dict["doc_num"] = meta_data.get(
-        "doc_num", str(f_name).split(",")[0].split(" ")[-1])
+    doc_dict["doc_num"] = meta_data.get("doc_num", str(f_name).split(",")[0].split(" ")[-1])
 
 
 def assign_other_fields(doc_dict):
@@ -44,21 +38,22 @@ def add_metadata_fields(doc_dict, meta_data={}) -> dict:
 
     try:
         if meta_data["downloadable_items"][0]:
-            meta_data["download_url"] = meta_data["downloadable_items"][0]['web_url']
+            meta_data["download_url"] = meta_data["downloadable_items"][0]["web_url"]
     except:
         pass
 
-    doc_dict.update({
-        "access_timestamp": meta_data.get("access_timestamp", default_date),
-        "publication_date": meta_data.get("publication_date", default_date),
-        "crawler_used": meta_data.get("crawler_used", default_crawler),
-        "source_fqdn": meta_data.get("source_fqdn", default_url),
-        "source_page_url": meta_data.get("source_page_url", default_url),
-        "cac_login_required": meta_data.get("cac_login_required", default_cac_login_required),
-        "download_url": meta_data.get("download_url", default_url),
-        "version_hash": meta_data.get("version_hash", default_hash),
-
-        "title": meta_data.get("doc_title", "NA"),
-        "ingest_date": meta_data.get("access_timestamp", False),
-        "meta_data": meta_data
-    })
+    doc_dict.update(
+        {
+            "access_timestamp": meta_data.get("access_timestamp", default_date),
+            "publication_date": meta_data.get("publication_date", default_date),
+            "crawler_used": meta_data.get("crawler_used", default_crawler),
+            "source_fqdn": meta_data.get("source_fqdn", default_url),
+            "source_page_url": meta_data.get("source_page_url", default_url),
+            "cac_login_required": meta_data.get("cac_login_required", default_cac_login_required),
+            "download_url": meta_data.get("download_url", default_url),
+            "version_hash": meta_data.get("version_hash", default_hash),
+            "title": meta_data.get("doc_title", "NA"),
+            "ingest_date": meta_data.get("access_timestamp", False),
+            "meta_data": meta_data,
+        }
+    )

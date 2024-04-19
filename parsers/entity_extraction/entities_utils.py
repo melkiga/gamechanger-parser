@@ -48,11 +48,7 @@ def make_entities_lookup_dict(
     for df, ent_type in dfs:
         df.dropna(subset=["Name"], inplace=True)
         # Columns that contain entities to add to the lookup dictionary.
-        cols = [
-            col
-            for col in df.columns
-            if col in ["Name", "OrgParent", "Aliases", "Parent"]
-        ]
+        cols = [col for col in df.columns if col in ["Name", "OrgParent", "Aliases", "Parent"]]
 
         for col in cols:
             df[col].fillna("", inplace=True)
@@ -63,12 +59,8 @@ def make_entities_lookup_dict(
                 for i in df.index:
                     update_ents_dict(df.loc[i, "Parent"], "ORG", ents_dict)
             elif col == "Aliases":
-                for ent_standardized_name, ents in df[["Name", col]].itertuples(
-                    index=False
-                ):
-                    update_ents_dict(
-                        ents.split(";"), ent_type, ents_dict, ent_standardized_name
-                    )
+                for ent_standardized_name, ents in df[["Name", col]].itertuples(index=False):
+                    update_ents_dict(ents.split(";"), ent_type, ents_dict, ent_standardized_name)
             else:
                 for ent in df[col]:
                     update_ents_dict(ent, ent_type, ents_dict)
@@ -124,28 +116,18 @@ def remove_overlapping(ents):
     Returns:
         list of tuple: Non-overlapping entities
     """
-    repeated_starts = [
-        x for x, y in Counter(ent[0] for ent in ents).most_common() if y > 1
-    ]
+    repeated_starts = [x for x, y in Counter(ent[0] for ent in ents).most_common() if y > 1]
     # For entities that share a start index, only keep the one with the
     # largest end index.
-    largest_of_repeats = [
-        max([ent for ent in ents if ent[0] == start], key=itemgetter(1))
-        for start in repeated_starts
-    ]
+    largest_of_repeats = [max([ent for ent in ents if ent[0] == start], key=itemgetter(1)) for start in repeated_starts]
     # Remove all entities that have a shared start index. Then, add back the
     # largest of those overlapping entities.
     ents = [ent for ent in ents if ent[0] not in repeated_starts] + largest_of_repeats
 
-    repeated_ends = [
-        x for x, y in Counter(ent[1] for ent in ents).most_common() if y > 1
-    ]
+    repeated_ends = [x for x, y in Counter(ent[1] for ent in ents).most_common() if y > 1]
     # For entities that share an end index, only keep the one with the
     # smallest start index.
-    largest_of_repeats = [
-        min([ent for ent in ents if ent[1] == end], key=itemgetter(0))
-        for end in repeated_ends
-    ]
+    largest_of_repeats = [min([ent for ent in ents if ent[1] == end], key=itemgetter(0)) for end in repeated_ends]
     # Remove all entities that have a shared end index. Then, add back the
     # largest of those overlapping entities.
     ents = [ent for ent in ents if ent[1] not in repeated_ends] + largest_of_repeats

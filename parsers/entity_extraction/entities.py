@@ -9,9 +9,7 @@ from parsers.static_data.data_paths import path_for_GraphRelations_xls
 
 
 # The graph relations file from gamechangerml is used as gold standard entities.
-graph_relations_entities_dict = entities_utils.make_entities_lookup_dict(
-    path_for_GraphRelations_xls
-)
+graph_relations_entities_dict = entities_utils.make_entities_lookup_dict(path_for_GraphRelations_xls)
 
 # # Used to find entities in text.
 flashtext_processor = KeywordProcessor(case_sensitive=True)
@@ -91,9 +89,7 @@ def extract_entities(doc_dict: dict) -> None:
         for keyword, span_start, span_stop in extracted_keywords:
             raw_entity_for_keyword = graph_relations_entities_dict[keyword]["raw_ent"]
             entity_type = graph_relations_entities_dict[keyword]["ent_type"]
-            entities.append(
-                (span_start, span_stop, raw_entity_for_keyword, entity_type)
-            )
+            entities.append((span_start, span_stop, raw_entity_for_keyword, entity_type))
 
         entities = entities_utils.remove_overlapping(entities)
         for span_start, span_stop, raw_entity, entity_type in entities:

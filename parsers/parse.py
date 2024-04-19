@@ -1,18 +1,12 @@
-import sys
-import os
 import re
 from pathlib import Path
 import json
-import typing
-from datetime import datetime
 import traceback
 
 from parsers import paragraphs, pages, pdf_reader
-
+import filetype
 from parsers.field_names import FieldNames as FN
-from parsers.ocr_utils import OCRError, UnparseableDocument, PageCountParse
 from parsers.file_utils import coerce_file_to_pdf
-from parsers.ocr import get_ocr_filename
 from parsers.reference_extraction.add_reference_list import add_ref_list
 from parsers.entity_extraction.entities import extract_entities
 from parsers.keyword_extraction.keywords import extract_keywords
@@ -78,9 +72,8 @@ def parse(
 
         doc_dict["abbreviations_n"] = []
         # abbreviations.add_abbreviations_n, just returns empty list currently
-        doc_dict["summary_30"] = "" 
-         # summary.add_summary, just returns empty string currently
-        
+        doc_dict["summary_30"] = ""
+        # summary.add_summary, just returns empty string currently
 
         add_pagerank(doc_dict)
         print("pagerank", doc_dict["pagerank_r"])
@@ -95,7 +88,7 @@ def parse(
         # # TODO: add sections
         add_sections(doc_dict)
         for title, section in doc_dict["sections"].items():
-            print(title, ':', section)
+            print(title, ":", section)
 
         post_process(doc_dict)
 

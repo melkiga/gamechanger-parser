@@ -16,11 +16,12 @@ def get_keywords(text: str, amount: int = 2) -> List[str]:
     except ValueError:
         raise
 
+
 def extract_keywords(doc_dict: dict) -> None:
     keyword_counts = Counter()
 
-    for page in doc_dict['pages']:
-        raw_page_text = page['p_raw_text']
+    for page in doc_dict["pages"]:
+        raw_page_text = page["p_raw_text"]
         page_keywords = get_keywords(raw_page_text)
         for keyword in page_keywords:
             keyword_counts[keyword] += 1

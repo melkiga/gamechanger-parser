@@ -1,4 +1,3 @@
-
 from gensim.utils import simple_preprocess
 
 try:
@@ -6,6 +5,7 @@ try:
 except ImportError:
     print("[IMPORT ERROR]: No Topic Models, skipping extract_topics")
     tfidf_model = bigrams_phraser = None
+
 
 def extract_topics(doc_dict):
     """
@@ -36,5 +36,4 @@ def extract_topics(doc_dict):
         phrases = bigrams_phraser[preprocessed_text]
         topics = tfidf_model.get_topics(phrases, topn=5)
 
-        doc_dict['topics_s'] = [topic[1].replace("_", " ") for topic in topics]
-
+        doc_dict["topics_s"] = [topic[1].replace("_", " ") for topic in topics]

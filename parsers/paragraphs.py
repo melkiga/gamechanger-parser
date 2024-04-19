@@ -16,12 +16,7 @@ def tokens_to_str(tokens):
     Returns:
         str
     """
-    return " ".join(
-        [
-            " ".join([token.spacing + token.value for token in sentence])
-            for sentence in tokens
-        ]
-    )
+    return " ".join([" ".join([token.spacing + token.value for token in sentence]) for sentence in tokens])
 
 
 def make_paragraph_id(filename, par_count_i):
@@ -70,7 +65,7 @@ def add_paragraphs(doc_dict):
 
     for page in pages:
         raw_text = page[FN.PAGE_RAW_TEXT]
-        page_num = page['p_page']
+        page_num = page["p_page"]
 
         segmented_text = segmenter.process(raw_text)
 
@@ -87,8 +82,7 @@ def add_paragraphs(doc_dict):
                 FN.PAR_COUNT: page_paragraph_num,
                 FN.PAGE_NUM: page_num,
                 FN.PAR_RAW_TEXT: paragraph_text,  # not in fact the raw text, very cleaned
-                FN.ENTITIES: []
-
+                FN.ENTITIES: [],
             }
             paragraph_dicts.append(paragraph_dict)
             total_paragraph_count += 1

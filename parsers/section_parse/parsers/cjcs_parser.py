@@ -96,11 +96,8 @@ class CJCSParser(ParserDefinition):
 
     @property
     def responsibilities(self):
-        resp = (
-            self._get_responsibilities_from_enclosures()
-            + self._get_numbered_section(
-                self.NUMBERED_RESPONSIBILITIES_START_PATTERN
-            )
+        resp = self._get_responsibilities_from_enclosures() + self._get_numbered_section(
+            self.NUMBERED_RESPONSIBILITIES_START_PATTERN
         )
 
         # Remove duplicate responsibilities sections.
@@ -132,9 +129,7 @@ class CJCSParser(ParserDefinition):
         """
         result = []
 
-        for match_ in finditer(
-            self.ENCLOSURE_RESPONSIBILITIES_START_PATTERN, self._text
-        ):
+        for match_ in finditer(self.ENCLOSURE_RESPONSIBILITIES_START_PATTERN, self._text):
             letter = match_.groups()[0]
             start = match_.start()
             end = self._find_enclosure_end(letter, start)
@@ -149,9 +144,7 @@ class CJCSParser(ParserDefinition):
 
         return [self._remove_pagebreaks_and_noise(x) for x in result]
 
-    def _get_numbered_section(
-        self, section_name: Union[str, Pattern], first_only: bool = False
-    ) -> List[str]:
+    def _get_numbered_section(self, section_name: Union[str, Pattern], first_only: bool = False) -> List[str]:
         """Get a numbered section, with the given section name or pattern, from
         `self._text`.
 
@@ -193,9 +186,7 @@ class CJCSParser(ParserDefinition):
                 r"PART [A-Z]{1,2}(?: ?[–-] ?[A-Z]+)?",
             ]
         ]
-        enclosure_title_pattern = compile(
-            self._make_enclosure_title_pattern(r"[A-Z]+")
-        )
+        enclosure_title_pattern = compile(self._make_enclosure_title_pattern(r"[A-Z]+"))
         result = []
 
         for start_match in start_matches:
@@ -203,21 +194,15 @@ class CJCSParser(ParserDefinition):
             # next section.
             start_idx = start_match.start()
             search_start_idx = start_match.end()
-            end_match = find_first_occurrence(
-                self._text[search_start_idx:], next_section_patterns
-            )
+            end_match = find_first_occurrence(self._text[search_start_idx:], next_section_patterns)
 
             if end_match:
-                text = self._text[
-                    start_idx : search_start_idx + end_match.start()
-                ]
+                text = self._text[start_idx : search_start_idx + end_match.start()]
                 # If the next list item is numbered 1, it could be part of the
                 # next enclosure. If it is, then cut off the text before the
                 # next enclosure title.
                 if end_match.groups() and end_match.groups()[0] == "1":
-                    enclosure_titles = list(
-                        finditer(enclosure_title_pattern, text)
-                    )
+                    enclosure_titles = list(finditer(enclosure_title_pattern, text))
                     if len(enclosure_titles) >= 2:
                         first_enclosure = enclosure_titles[0].groups()[0]
                         for title in enclosure_titles[1:]:
@@ -233,9 +218,7 @@ class CJCSParser(ParserDefinition):
 
         return [self._remove_pagebreaks_and_noise(x) for x in result]
 
-    def _find_enclosure_end(
-        self, enclosure_letter: str, start: int
-    ) -> Union[int, None]:
+    def _find_enclosure_end(self, enclosure_letter: str, start: int) -> Union[int, None]:
         """Find the end index of an enclosure within `_text`.
 
         If enclosure_letter is not yet in self._enclosure_spans, its span
@@ -261,9 +244,7 @@ class CJCSParser(ParserDefinition):
         try:
             end_letter = next_letter(enclosure_letter)
         except ValueError as e:
-            self._logger.exception(
-                f"Exception occurred within _get_enclosure_span(): {e}"
-            )
+            self._logger.exception(f"Exception occurred within _get_enclosure_span(): {e}")
             return None
 
         patterns = [self._make_enclosure_title_pattern(end_letter)]
@@ -327,9 +308,7 @@ class CJCSParser(ParserDefinition):
         return text.strip()
 
     def _make_enclosure_title_pattern(self, enclosure_letter: str) -> str:
-        return make_linebreak_pattern(
-            rf"{CAPITAL_ENCLOSURE} ({enclosure_letter})\.?"
-        )
+        return make_linebreak_pattern(rf"{CAPITAL_ENCLOSURE} ({enclosure_letter})\.?")
 
     def _make_filename_pattern(self) -> str:
         if "GDE" in self._filename_without_extension:
@@ -355,10 +334,6 @@ class CJCSParser(ParserDefinition):
                 flags=VERBOSE | IGNORECASE,
             )
             if match_:
-                filename_pattern = (
-                    filename_pattern[: match_.start()]
-                    + r",?[ ]?"
-                    + filename_pattern[match_.start() :]
-                )
+                filename_pattern = filename_pattern[: match_.start()] + r",?[ ]?" + filename_pattern[match_.start() :]
 
         return filename_pattern

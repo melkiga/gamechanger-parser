@@ -23,9 +23,7 @@ APPENDIX_TITLE_PATTERN = compile(
 )
 
 
-def get_letter_dot_section(
-    text: str, section_name: str, regex_flags: List[RegexFlag] = [IGNORECASE]
-) -> str:
+def get_letter_dot_section(text: str, section_name: str, regex_flags: List[RegexFlag] = [IGNORECASE]) -> str:
     """Get a section, that is part of an alphabetical list and has the given
     section name, from the text.
 
@@ -49,9 +47,7 @@ def get_letter_dot_section(
     for flag in regex_flags:
         flags |= flag
 
-    start_match = search(
-        rf"\n\s*([a-zA-Z])\.\s*{section_name}", text, flags=flags
-    )
+    start_match = search(rf"\n\s*([a-zA-Z])\.\s*{section_name}", text, flags=flags)
 
     if not start_match:
         return default
@@ -74,9 +70,7 @@ def get_letter_dot_section(
         if end_match:
             break
     if end_match:
-        return text[
-            start_index : start_index + start_match_len + end_match.start()
-        ]
+        return text[start_index : start_index + start_match_len + end_match.start()]
 
     return text[start_index:]
 
@@ -103,9 +97,7 @@ def match_number_hyphenated_section(
     return search(rf"\n{first_num}-{second_num}\s*\.?", text)
 
 
-def match_number_dot_section(
-    text: str, num: str = "[0-9]+"
-) -> Union[Match, None]:
+def match_number_dot_section(text: str, num: str = "[0-9]+") -> Union[Match, None]:
     return search(rf"\n{num}\s*\.", text)
 
 

@@ -7,10 +7,8 @@ from parsers.html_utils import (
 import typing as t
 from pathlib import Path
 import fitz
-import os
 import PyPDF2
-# from PyPDF2.errors import PdfReadError
-from PyPDF2.utils import PdfReadError
+from PyPDF2.errors import PdfReadError
 
 
 def walk_files(src: t.Union[Path, str]) -> t.Iterable[Path]:
@@ -58,9 +56,7 @@ def is_ocr_pdf(file: t.Union[Path, str], error_char_threshold=0.2) -> bool:
                     # check to see if the OCR font (or char encodings) are problematic, and the PDF does need OCR
                     # character 65533 is the 'replace'/'unknown' character. If the percentage of error characters is
                     # greater than the error_char_threshold, the document requires "
-                    if [ord(char) for char in page_text].count(65533) / len(
-                        page_text
-                    ) > error_char_threshold:
+                    if [ord(char) for char in page_text].count(65533) / len(page_text) > error_char_threshold:
                         return False
                     # This document contains well suited OCR already
                     else:

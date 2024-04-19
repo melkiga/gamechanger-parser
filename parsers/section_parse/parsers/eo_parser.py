@@ -1,9 +1,10 @@
 from parsers.field_names import FieldNames
 from .parser_definition import ParserDefinition
 
+
 class EOParser(ParserDefinition):
     """Section parser for Executive Order (EO) documents.
-    
+
     Child of ParserDefinition.
     """
 
@@ -16,4 +17,3 @@ class EOParser(ParserDefinition):
     @property
     def purpose(self):
         return [self._title]
-

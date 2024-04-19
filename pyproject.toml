@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "gamechanger-parser"
+version = "0.1.0"
+description = ""
+authors = ["Gabriella Melki <gabriellamelki@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pypdf2 = {extras = ["full"], version = "^3.0.1"}
+pandas = "^2.2.2"
+xlrd = "^2.0.1"
+beautifulsoup4 = "^4.12.3"
+lxml = "^5.2.1"
+syntok = "^1.4.4"
+fitz = "^0.0.1.dev2"
+pypdf = "^4.2.0"
+filetype = "^1.2.0"
+flashtext = "^2.7"
+chardet = "^5.2.0"
+ocrmypdf = "^16.2.0"
+w3lib = "^2.1.2"
+xhtml2pdf = "^0.2.15"
+gensim = "^4.3.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+ipykernel = "^6.29.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
